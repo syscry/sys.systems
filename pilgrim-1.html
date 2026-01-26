@@ -1,0 +1,445 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>PILGRIM 1 by SYS™</title>
+  <meta name="description" content="PILGRIMS is an ongoing series exploring fully on-chain art, created entirely in HTML and CSS. PILGRIM1 is the second work in the series, following PILGRIM0 (proto:pilgrim). -sys(cry), created 2024, minted 25/12/25, 10kb, HTML/CSS">
+  <meta name="keywords" content="pilgrims, SYS™, onchain, codeart, html/css">
+  <meta name="author" content="-sys(cry)">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+<style>
+  * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+  html {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    min-height: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333;
+    background-color: #e1e1e1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+  
+  html.w-mod-touch * {
+    background-attachment: scroll !important;
+  }
+  .pi-b4 {
+  z-index: 10;
+  box-shadow: none;
+  background-color: #0000000f;
+  border: .5px #ccc;
+  border-radius: 100% 100% 16px 16px;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 16px;
+  height: 40px;
+  margin-top: -4px;
+  padding-top: 7px;
+  display: flex;
+  position: relative;
+  overflow: visible;
+}
+
+.pi-bd {
+  background-color: #fffc;
+  border-radius: 100%;
+  width: 4px;
+  height: 4px;
+  box-shadow: 0 0 5px #fff, 0 0 5px #fffffff2;
+}
+
+.pi-t4 {
+  background-color: #333;
+  border-radius: 100%;
+  width: 2px;
+  height: 2px;
+  box-shadow: 0 0 2px #000;
+}
+
+.pi-b2 {
+  border: .5px solid #ccc;
+  border-top-left-radius: 100%;
+  border-top-right-radius: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  width: 41px;
+  height: 80px;
+  padding-top: 20px;
+  display: flex;
+  box-shadow: inset 1px 1px 1px #fff3, 1px 1px 1px #fff3;
+}
+
+.pi-bs2 {
+  background-color: #e1e1e1;
+  border-radius: 100%;
+  width: 14px;
+  height: 14px;
+  box-shadow: inset 1px 1px 2px #ffffff4d, inset -1px -1px 1px #0000000d, 2px 2px 4px #00000026;
+}
+
+.pi-s3 {
+  display: flex;
+}
+
+.pi-m {
+  flex-flow: row;
+  justify-content: center;
+  align-items: flex-start;
+  width: 180px;
+  height: 100px;
+  margin-top: 50px;
+  display: flex;
+  position: absolute;
+  overflow: hidden;
+}
+
+.pi-t1 {
+  z-index: 2;
+  border: .5px solid #ccc;
+  border-top-style: none;
+  border-bottom-right-radius: 100%;
+  border-bottom-left-radius: 100%;
+  justify-content: center;
+  align-items: flex-end;
+  width: 43px;
+  height: 160px;
+  padding-bottom: 40px;
+  display: flex;
+  position: absolute;
+  box-shadow: inset 1px 1px 1px #fff3, 1px 1px 1px #fff3;
+}
+
+.pi-sl2 {
+  position: relative;
+  overflow: hidden;
+}
+
+.p-form {
+  padding-top: 0;
+  display: flex;
+}
+
+.pi-b {
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 250px;
+  height: 160px;
+  margin-top: 140px;
+  display: flex;
+  position: absolute;
+  overflow: hidden;
+}
+
+.p0 {
+  border-radius: 170px 170px 100% 100%;
+  justify-content: center;
+  align-items: center;
+  width: 170px;
+  height: 330px;
+  display: flex;
+  box-shadow: -10px -10px 20px #ffffff4d, inset 4px 4px 8px #ffffff4d, inset -4px -4px 8px #0000000d, 10px 10px 20px #0000000d;
+}
+
+.pi-t3 {
+  background-color: #333;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 6px;
+  height: 6px;
+  display: flex;
+  box-shadow: 1px 1px 1px #ffffff4d;
+}
+
+.pi-s2 {
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  margin-top: -130px;
+  display: flex;
+  position: absolute;
+  overflow: hidden;
+}
+
+.pi-s {
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 250px;
+  display: flex;
+  position: absolute;
+}
+
+.pi-bs {
+  background-color: #00000008;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: flex-end;
+  width: 16px;
+  height: 24px;
+  padding: 1px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: -1px -1px 1px #0000000d, 1px 1px 1px #ffffff4d, inset 1px 1px 4px #0003;
+}
+
+.pi-t {
+  justify-content: center;
+  align-items: flex-end;
+  width: 50px;
+  height: 60px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.pi-b7 {
+  border: .5px solid #ccc;
+  border-bottom-right-radius: 100%;
+  border-bottom-left-radius: 100%;
+  width: 139px;
+  height: 120px;
+  margin-top: -40px;
+  margin-left: 20px;
+  margin-right: 20px;
+  position: relative;
+  box-shadow: inset 1px 1px 1px #fff3, 1px 1px 1px #fff3;
+}
+
+.pi-t2 {
+  background-color: #0000001a;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  box-shadow: inset 2px 2px 5px #0003, 1px 1px 1px #ffffff80, inset -2px -2px 4px #fff9, inset 2px 2px 4px #0003;
+}
+
+.pi3 {
+  z-index: 0;
+  border-radius: 100%;
+  width: 66px;
+  height: 220px;
+  position: relative;
+  box-shadow: -6px -6px 12px #ffffff80, 6px 6px 12px #00000014, inset -20px -20px 20px #00000014, inset 20px 20px 20px #ffffff80;
+}
+
+.pi-sl-3 {
+  border: .5px solid #ccc;
+  border-radius: 100% 100% 0 0;
+  width: 140px;
+  height: 140px;
+  margin-bottom: -77px;
+  margin-left: 20px;
+  margin-right: 20px;
+  box-shadow: inset 1px 1px 1px #fff3, 1px 1px 1px #fff3;
+}
+
+.pi-b1 {
+  justify-content: center;
+  align-items: flex-start;
+  width: 50px;
+  height: 60px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.pi2 {
+  background-color: #00000003;
+  border-radius: 140px 140px 100% 100%;
+  justify-content: center;
+  align-items: center;
+  width: 140px;
+  height: 300px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 1px 1px 12px #0000000d, inset -4px -4px 8px #fff3, 4px 4px 8px #ffffff4d, -4px -4px 8px #0000000d, inset 4px 4px 8px #00000012;
+}
+
+.pi-m2 {
+  z-index: 2;
+  border: .5px solid #ccccccb3;
+  border-top-left-radius: 100%;
+  border-top-right-radius: 100%;
+  width: 250px;
+  height: 200px;
+  position: absolute;
+  box-shadow: inset 1px 1px 1px #fff3, 1px 1px 1px #fff3;
+}
+
+.pi-b5 {
+  flex-flow: row;
+  justify-content: center;
+  align-items: flex-start;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.body {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.sys {
+  background-color: #e1e1e1;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.ar0 {
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
+  display: flex;
+  box-shadow: inset 0 -1px 3px #ffffff80, inset 0 1px 3px #0000001a;
+}
+
+.ar1 {
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 13px;
+  height: 13px;
+  display: flex;
+  box-shadow: inset 0 -1px 3px #ffffff80, inset 0 1px 3px #00000012;
+}
+
+.ar2 {
+  border-radius: 100px;
+  justify-content: center;
+  align-items: center;
+  width: 6px;
+  height: 6px;
+  display: flex;
+  box-shadow: inset 0 -1px 3px #ffffff80, inset 0 1px 3px #00000012;
+}
+
+.sl-i {
+  background-color: #fda3e84d;
+  border-radius: 5px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 4px;
+  height: 4px;
+  display: flex;
+  box-shadow: 0 0 4px #0000001a, inset 0 1px 1px #0003, 0 1px 1px #ffffff80, inset 0 0 2px #0003;
+}
+
+.sl-b {
+  background-color: #ccc;
+  background-image: none;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
+  display: flex;
+  box-shadow: inset 0 1px 2px #ffffff4d, inset 0 -1px 1px #0000001a, inset 0 6px 6px #ffffff1a, 0 3px 6px #0003;
+}
+
+.light {
+  background-color: #fcf9f4e6;
+  border: 1px solid #0000001a;
+  border-radius: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 4px;
+  height: 4px;
+  display: flex;
+  box-shadow: 0 0 4px #fffc;
+} 
+</style>
+</head>
+<body class="sys">
+  <div class="p-form">
+    <div class="p0">
+      <div class="pi2">
+        <div class="pi3"></div>
+        <div class="pi-s"></div>
+        <div class="pi-s2">
+          <div class="pi-s3">
+            <div class="pi-sl">
+              <div class="pi-sl2">
+                <div class="pi-sl-3"></div>
+              </div>
+            </div>
+            <div class="pi-sr">
+              <div class="pi-sl2">
+                <div class="pi-sl-3"></div>
+              </div>
+            </div>
+          </div>
+          <div class="pi-t">
+            <div class="pi-t1">
+              <div class="pi-t2">
+                <div class="pi-t3">
+                  <div class="pi-t4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pi-m">
+          <div class="pi-m2"></div>
+        </div>
+        <div class="pi-b">
+          <div class="pi-b1">
+            <div class="pi-b2">
+              <div class="pi-b4">
+                <div class="pi-bd"></div>
+                <div class="pi-bs">
+                  <div class="pi-bs2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pi-b5">
+            <div class="pi-b6">
+              <div class="pi-b7"></div>
+            </div>
+            <div class="pi-b8">
+              <div class="pi-b7"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ar0">
+    <div class="ar1">
+      <div class="ar2">
+        <div class="sl-i"></div>
+      </div>
+    </div>
+  </div>
+
+</body></html>

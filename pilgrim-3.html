@@ -1,0 +1,333 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PILGRIM 111 by SYS™</title>
+  <meta name="description" content="PILGRIMS is an ongoing series exploring fully onchain art, created entirely in HTML and CSS. PILGRIM 111 is the fourth work in the series, following PILGRIM 11. -sys(cry), created 2024, minted 27/12/25, 8kb, HTML/CSS">
+  <meta name="keywords" content="pilgrims, SYS™, onchain, codeart, html/css">
+  <meta name="author" content="-sys(cry)">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+<style>
+  * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+  html {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    min-height: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333;
+    background-color: #e1e1e1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+  
+  html.w-mod-touch * {
+    background-attachment: scroll !important;
+  }
+
+  .pm-1 {
+  border-radius: 100%;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 180px;
+  height: 300px;
+  padding: 15px 10px 10px;
+  display: flex;
+  box-shadow: 0 0 40px #fff3, -10px -10px 20px #fff6, 10px 10px 20px #0000001a, inset 20px 20px 40px #fff6, inset -20px -20px 40px #0000001a;
+}
+
+.pm5 {
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 114px;
+  height: 114px;
+  margin-top: 8px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: -2px -2px 5px #fff3, inset -1px -1px 1px #00000012, 1px 1px 2px #00000017, inset 1px 1px 1px #ffffff4d, 2px 2px 6px #0000001a;
+}
+
+.pl-9 {
+  background-color: #00000008;
+  border-radius: 50px 50px 120px 120px;
+  flex-flow: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 18px;
+  padding: 4px;
+  display: flex;
+  box-shadow: inset 1px 1px 4px #0000001a, inset -2px -2px 4px #fff3, inset 2px 2px 4px #0000001a, 1px 1px 1px #fff6, -1px -1px 1px #0000000d;
+}
+
+.pm-6 {
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 110px;
+  height: 110px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: inset 1px 1px 2px #0000000d, inset -1px -1px 2px #ffffff4d;
+}
+
+.pl-10 {
+  justify-content: space-between;
+  display: flex;
+}
+
+.pl-12 {
+  background-color: #e9dfd9;
+  border-radius: 100%;
+  width: 5px;
+  height: 5px;
+  box-shadow: inset 1px 1px 1px #fff3, 1px 1px 1px #ffffff4d;
+}
+
+.pm-8 {
+  background-color: #00000008;
+  background-image: none;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  width: 4px;
+  height: 90px;
+  display: flex;
+  box-shadow: 1px 1px 2px #fff3, inset 1px 1px 2px #00000014;
+}
+
+.pl-11 {
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 6px;
+  height: 6px;
+  display: flex;
+  box-shadow: 1px 1px 1px #ffffff1a, inset 0 0 2px #0000004d;
+}
+
+.pl-13 {
+  justify-content: center;
+  align-items: flex-start;
+  display: flex;
+}
+
+.pl-13._2 {
+  margin-top: -1px;
+}
+
+.pl-3 {
+  background-color: #0000000d;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: inset 1px 1px 2px #0000000d, 1px 1px 1px #ffffff4d;
+}
+
+.pl-7 {
+  background-color: #00000008;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  box-shadow: inset 1px 1px 2px #00000008, 1px 1px 2px #ffffff4d, inset 2px 2px 4px #0000000d, 2px 2px 4px #fff3;
+}
+
+.pm-3 {
+  -webkit-text-fill-color: inherit;
+  background-color: #e1e1e1;
+  background-image: linear-gradient(#00000008, #00000008);
+  background-clip: border-box;
+  border-radius: 100%;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 120px;
+  height: 160px;
+  padding-top: 12px;
+  display: flex;
+  box-shadow: -1px -1px 3px #0000000d, 1px 1px 3px #ffffff80, inset 1px 1px 3px #0000001a;
+}
+
+.pl-8 {
+  background-color: #9d7a49;
+  background-image: linear-gradient(315deg, #a38862, #bea785);
+  border-radius: 100%;
+  width: 4px;
+  height: 4px;
+  margin: 1px 2px;
+  box-shadow: inset 1px 1px 1px #0003, 1px 1px 1px #ffffff4d;
+}
+
+.pl-5 {
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  box-shadow: 3px 3px 6px #0000000d, -3px -3px 6px #fff3, inset -3px -3px 6px #0000000d, inset 3px 3px 6px #fff3;
+}
+
+.pl-2 {
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  box-shadow: -2px -2px 4px #fff6, 2px 2px 4px #0000001a;
+}
+
+.pm-9 {
+  border: .5px solid #c4c4c4;
+  border-radius: 100%;
+  width: 6px;
+  height: 6px;
+  margin-top: -20px;
+  box-shadow: 1px 1px 1px #fff3, inset 1px 1px 1px #0000000d;
+}
+
+.pm4 {
+  z-index: 0;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  background-color: #f8f8f8e6;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 4px;
+  height: 4px;
+  display: flex;
+  overflow: visible;
+  box-shadow: 0 0 6px #fff, 1px 1px 1px #fff3, inset 1px 1px 1px #0000000d;
+}
+
+.pl-4 {
+  background-color: #e1e1e1;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  box-shadow: inset 1px 1px 2px #fff3, 1px 1px 2px #0000000d;
+}
+
+.pl-6 {
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  box-shadow: inset -3px -3px 6px #fff3, inset 3px 3px 6px #00000008;
+}
+
+.pm-2 {
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  border-radius: 100%;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 220px;
+  height: 340px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  display: flex;
+  position: absolute;
+}
+
+.pl-1 {
+  border: .5px solid #c4c4c4;
+  border-radius: 16px;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 34px;
+  height: 58px;
+  padding: 4px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: inset 1px 1px 1px #fff3, 1px 1px 1px #fff3;
+}
+
+.pm-7 {
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 10px;
+  height: 94px;
+  display: flex;
+}
+
+.sys {
+  background-color: #e1e1e1;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+</style>
+</head>
+<body class="sys">
+    <div class="pm-1"></div>
+    <div class="pm-2">
+      <div class="pm-3">
+        <div class="pm4"></div>
+        <div class="pm5">
+          <div class="pm-6">
+            <div class="pm-7">
+              <div class="pm-8"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pm-9"></div>
+      <div class="pl-1">
+        <div class="pl-2">
+          <div class="pl-3">
+            <div class="pl-4">
+              <div class="pl-5">
+                <div class="pl-6">
+                  <div class="pl-7">
+                    <div class="pl-8"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pl-9">
+          <div class="pl-10">
+            <div class="pl-11">
+              <div class="pl-12"></div>
+            </div>
+            <div class="pl-11">
+              <div class="pl-12"></div>
+            </div>
+          </div>
+          <div class="pl-13 _2">
+            <div class="pl-11">
+              <div class="pl-12"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

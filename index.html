@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SYS — Archive</title>
+  <style>
+    @font-face {
+      font-family: 'BPdots';
+      src: url('BPdotsUnicase.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'BPdots', Arial, sans-serif;
+      background: #e1e1e1;
+      color: #333;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%);
+      z-index: 1000;
+    }
+
+    .nav-container {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 20px;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      position: relative;
+      height: 22px;
+    }
+
+    .nav-item {
+      padding: 5px 8px;
+      border-radius: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      color: rgba(0, 0, 0, 0.4);
+      font-size: 8px;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .nav-item:hover {
+      color: rgba(0, 0, 0, 0.7);
+    }
+
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.5);
+      color: #333;
+    }
+
+    .nav-back {
+      padding: 5px 8px;
+      border-radius: 16px;
+      cursor: pointer;
+      color: rgba(0, 0, 0, 0.4);
+      font-size: 8px;
+      letter-spacing: 0.05em;
+      margin-right: 4px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .nav-back:hover {
+      color: rgba(0, 0, 0, 0.7);
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .nav-view {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%) translateY(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+      height: 22px;
+    }
+
+    .nav-view.active {
+      position: relative;
+      top: 0;
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
+    }
+
+    .nav-back,
+    .nav-item {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Artwork sections */
+    section {
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .artwork-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .artwork-frame {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #e1e1e1;
+    }
+
+    .artwork-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .artwork-info {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      text-align: center;
+      pointer-events: auto;
+    }
+
+    .artwork-title {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(0, 0, 0, 0.5);
+      background: rgba(225, 225, 225, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+
+    .artwork-tech {
+      font-size: 7px;
+      letter-spacing: 0.1em;
+      color: rgba(0, 0, 0, 0.35);
+    }
+
+    .artwork-code {
+      font-size: 7px;
+      letter-spacing: 0.08em;
+      color: rgba(0, 0, 0, 0.3);
+      text-decoration: none;
+      padding: 3px 8px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      pointer-events: auto;
+    }
+
+    .artwork-code:hover {
+      color: rgba(0, 0, 0, 0.6);
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Footer */
+    .footer {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .footer-left,
+    .footer-right {
+      font-size: 7px;
+      letter-spacing: 0.1em;
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    .footer-right {
+      display: flex;
+      gap: 12px;
+      pointer-events: auto;
+    }
+
+    .footer-right a {
+      color: rgba(0, 0, 0, 0.3);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-right a:hover {
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      nav {
+        bottom: 10px;
+      }
+
+      .nav-inner,
+      .nav-view {
+        height: 18px;
+      }
+
+      .nav-item {
+        padding: 4px 6px;
+        font-size: 7px;
+      }
+
+      .nav-back {
+        padding: 4px 6px;
+        font-size: 7px;
+      }
+
+      .artwork-info {
+        top: 12px;
+      }
+
+      .artwork-title {
+        font-size: 7px;
+        padding: 4px 8px;
+      }
+
+      .artwork-tech {
+        font-size: 6px;
+      }
+
+      .artwork-code {
+        font-size: 6px;
+      }
+
+      .footer {
+        bottom: 10px;
+        left: 12px;
+        right: 12px;
+      }
+
+      .footer-left,
+      .footer-right {
+        font-size: 6px;
+      }
+
+      .footer-right {
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container" id="nav-container">
+      <div class="nav-inner" id="nav-inner">
+        <!-- Main menu (series) -->
+        <div class="nav-view active" id="nav-main">
+          <span class="nav-item" data-series="proto">P:A</span>
+          <span class="nav-item" data-series="holy">H:3</span>
+          <span class="nav-item" data-series="pilgrim">PLG</span>
+        </div>
+
+        <!-- Proto Angel submenu -->
+        <div class="nav-view" id="nav-proto">
+          <span class="nav-back"><</span>
+          <a href="#pa" class="nav-item" data-section="pa">P:A</a>
+        </div>
+
+        <!-- Holy Trinity submenu -->
+        <div class="nav-view" id="nav-holy">
+          <span class="nav-back"><</span>
+          <a href="#h1" class="nav-item" data-section="h1">H301</a>
+          <a href="#h2" class="nav-item" data-section="h2">H302</a>
+          <a href="#h3" class="nav-item" data-section="h3">H303</a>
+        </div>
+
+        <!-- Pilgrims submenu -->
+        <div class="nav-view" id="nav-pilgrim">
+          <span class="nav-back"><</span>
+          <a href="#p0" class="nav-item" data-section="p0">P0</a>
+          <a href="#p1" class="nav-item" data-section="p1">P1</a>
+          <a href="#p2" class="nav-item" data-section="p2">P11</a>
+          <a href="#p3" class="nav-item" data-section="p3">P111</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-left">SYS.SYSTEMS V0.1</div>
+    <div class="footer-right">
+      <a href="https://syscry.com" target="_blank">SYSCRY.COM</a>
+      <a href="https://systm.ai" target="_blank">SYSTM.AI</a>
+    </div>
+  </div>
+
+  <!-- Proto Angel -->
+  <section id="pa" data-series="proto">
+    <div class="artwork-container">
+      <div class="artwork-frame">
+        <iframe src="proto-angel-sys.html" loading="lazy"></iframe>
+      </div>
+      <div class="artwork-info">
+        <div class="artwork-title">PROTO:ANGEL</div>
+        <div class="artwork-tech">HTML / CSS / SVG</div>
+        <a href="proto-angel-sys.html" target="_blank" class="artwork-code">VIEW CODE</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Holy Trinity -->
+  <section id="h1" data-series="holy">
+    <div class="artwork-container">
+      <div class="artwork-frame">
+        <iframe src="holy-3nity-01-sys-final.html" loading="lazy"></iframe>
+      </div>
+      <div class="artwork-info">
+        <div class="artwork-title">HOLY:3NITY [H301]</div>
+        <div class="artwork-tech">HTML / CSS / SVG</div>
+        <a href="holy-3nity-01-sys-final.html" target="_blank" class="artwork-code">VIEW CODE</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="h2" data-series="holy">
+    <div class="artwork-container">
+      <div class="artwork-frame">
+        <iframe src="holy-3nity-02-sys-final.html" loading="lazy"></iframe>
+      </div>
+      <div class="artwork-info">
+        <div class="artwork-title">HOLY:3NITY [H302]</div>
+        <div class="artwork-tech">HTML / CSS / SVG</div>
+        <a href="holy-3nity-02-sys-final.html" target="_blank" class="artwork-code">VIEW CODE</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="h3" data-series="holy">
+    <div class="artwork-container">
+      <div class="artwork-frame">
+        <iframe src="holy-3nity-03-sys-final.html" loading="lazy"></iframe>
+      </div>
+      <div class="artwork-info">
+        <div class="artwork-title">HOLY:3NITY [H303]</div>
+        <div class="artwork-tech">HTML / CSS / SVG</div>
+        <a href="holy-3nity-03-sys-final.html" target="_blank" class="artwork-code">VIEW CODE</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pilgrims -->
+  <section id="p0" data-series="pilgrim">
+    <div class="artwork-container">
+      <div class="artwork-frame">
+        <iframe src="pilgrim-0.html" loading="lazy"></iframe>
+      </div>
+      <div class="artwork-info">
+        <div class="artwork-title">PILGRIM 0</div>
+        <div class="artwork-tech">HTML / CSS</div>
+        <a href="pilgrim-0.html" target="_blank" class="artwork-code">VIEW CODE</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="p1" data-series="pilgrim">
+    <div class="artwork-container">
+      <div class="artwork-frame">
+        <iframe src="pilgrim-1.html" loading="lazy"></iframe>
+      </div>
+      <div class="artwork-info">
+        <div class="artwork-title">PILGRIM 1</div>
+        <div class="artwork-tech">HTML / CSS</div>
+        <a href="pilgrim-1.html" target="_blank" class="artwork-code">VIEW CODE</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="p2" data-series="pilgrim">
+    <div class="artwork-container">
+      <div class="artwork-frame">
+        <iframe src="pilgrim-2.html" loading="lazy"></iframe>
+      </div>
+      <div class="artwork-info">
+        <div class="artwork-title">PILGRIM 11</div>
+        <div class="artwork-tech">HTML / CSS</div>
+        <a href="pilgrim-2.html" target="_blank" class="artwork-code">VIEW CODE</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="p3" data-series="pilgrim">
+    <div class="artwork-container">
+      <div class="artwork-frame">
+        <iframe src="pilgrim-3.html" loading="lazy"></iframe>
+      </div>
+      <div class="artwork-info">
+        <div class="artwork-title">PILGRIM 111</div>
+        <div class="artwork-tech">HTML / CSS</div>
+        <a href="pilgrim-3.html" target="_blank" class="artwork-code">VIEW CODE</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const navContainer = document.getElementById('nav-container');
+      const navMain = document.getElementById('nav-main');
+      const navProto = document.getElementById('nav-proto');
+      const navHoly = document.getElementById('nav-holy');
+      const navPilgrim = document.getElementById('nav-pilgrim');
+      const sections = document.querySelectorAll('section[id]');
+
+      const views = { main: navMain, proto: navProto, holy: navHoly, pilgrim: navPilgrim };
+      let currentView = 'main';
+
+      // Morph container width to match content
+      function morphToView(viewName) {
+        const targetView = views[viewName];
+        const currentActiveView = document.querySelector('.nav-view.active');
+
+        if (currentActiveView === targetView) return;
+
+        // Measure target width by temporarily making it visible
+        const origStyles = {
+          position: targetView.style.position,
+          opacity: targetView.style.opacity,
+          transform: targetView.style.transform,
+          pointerEvents: targetView.style.pointerEvents
+        };
+
+        targetView.style.position = 'relative';
+        targetView.style.opacity = '0';
+        targetView.style.transform = 'translateY(6px)';
+        targetView.style.pointerEvents = 'none';
+
+        const targetWidth = targetView.offsetWidth;
+
+        // Restore original inline styles
+        targetView.style.position = origStyles.position;
+        targetView.style.opacity = origStyles.opacity;
+        targetView.style.transform = origStyles.transform;
+        targetView.style.pointerEvents = origStyles.pointerEvents;
+
+        // Animate container width
+        navContainer.style.width = targetWidth + 8 + 'px';
+
+        // Fade out current
+        if (currentActiveView) {
+          currentActiveView.classList.remove('active');
+        }
+
+        // Fade in new after short delay
+        setTimeout(() => {
+          targetView.classList.add('active');
+          currentView = viewName;
+          updateActiveStates();
+        }, 150);
+      }
+
+      // Series click handlers (use event delegation)
+      navMain.addEventListener('click', (e) => {
+        const item = e.target.closest('.nav-item');
+        if (item && item.dataset.series) {
+          e.preventDefault();
+          const series = item.dataset.series;
+          morphToView(series);
+          const firstSection = document.querySelector(`section[data-series="${series}"]`);
+          if (firstSection) firstSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+
+      // Back buttons (use event delegation on container)
+      navContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('nav-back')) {
+          e.preventDefault();
+          morphToView('main');
+        }
+      });
+
+      function updateActiveStates() {
+        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+        // Find current visible section
+        let currentSection = null;
+        sections.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+            currentSection = section;
+          }
+        });
+
+        if (currentSection) {
+          const sectionId = currentSection.id;
+          const sectionSeries = currentSection.dataset.series;
+
+          // Update main menu active state
+          if (currentView === 'main') {
+            navMain.querySelectorAll('.nav-item').forEach(item => {
+              if (item.dataset.series === sectionSeries) item.classList.add('active');
+            });
+          }
+
+          // Update submenu active state
+          if (currentView !== 'main') {
+            views[currentView].querySelectorAll('.nav-item').forEach(item => {
+              if (item.dataset.section === sectionId) item.classList.add('active');
+            });
+
+            // Auto-switch submenu when scrolling into different series
+            if (sectionSeries !== currentView) {
+              morphToView(sectionSeries);
+            }
+          }
+        }
+      }
+
+      // Intersection observer for scroll updates
+      const observer = new IntersectionObserver((entries) => {
+        updateActiveStates();
+      }, {
+        rootMargin: '-45% 0px -45% 0px',
+        threshold: 0
+      });
+
+      sections.forEach(section => observer.observe(section));
+
+      // Set initial width
+      navContainer.style.width = navMain.offsetWidth + 8 + 'px';
+      updateActiveStates();
+
+      // Keyboard navigation
+      function getCurrentSectionIndex() {
+        const sectionArray = Array.from(sections);
+        for (let i = 0; i < sectionArray.length; i++) {
+          const rect = sectionArray[i].getBoundingClientRect();
+          if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+            return i;
+          }
+        }
+        return 0;
+      }
+
+      document.addEventListener('keydown', (e) => {
+        const sectionArray = Array.from(sections);
+        const currentIndex = getCurrentSectionIndex();
+
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          const nextIndex = Math.min(currentIndex + 1, sectionArray.length - 1);
+          sectionArray[nextIndex].scrollIntoView({ behavior: 'smooth' });
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          const prevIndex = Math.max(currentIndex - 1, 0);
+          sectionArray[prevIndex].scrollIntoView({ behavior: 'smooth' });
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          if (currentView !== 'main') {
+            morphToView('main');
+          } else {
+            sectionArray[0].scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
