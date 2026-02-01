@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>syscry CMS</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111;
+      --surface2: #1a1a1a;
+      --border: #333;
+      --text: #eee;
+      --text-dim: #777;
+      --accent: #fbcedc;
+      --accent-dim: #c9a0ad;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* Layout */
+    .app {
+      display: grid;
+      grid-template-columns: 220px 1fr 300px;
+      grid-template-rows: 56px 1fr;
+      height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      grid-column: 1 / -1;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+    }
+
+    .logo { font-weight: 300; letter-spacing: 2px; font-size: 1.1rem; }
+
+    .header-btns { display: flex; gap: 0.75rem; }
+
+    .btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .btn:hover { background: var(--border); }
+    .btn-primary { background: var(--accent); color: #000; border-color: var(--accent); }
+    .btn-primary:hover { background: var(--accent-dim); }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .sidebar h3 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+
+    .page-list { list-style: none; }
+
+    .page-item {
+      padding: 0.6rem 0.75rem;
+      margin-bottom: 0.25rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .page-item:hover { background: var(--surface2); }
+    .page-item.active { background: var(--accent); color: #000; }
+
+    /* Main Editor */
+    .editor {
+      padding: 1.5rem;
+      overflow-y: auto;
+      background: var(--bg);
+    }
+
+    .editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .editor-title { font-size: 1.25rem; font-weight: 400; }
+
+    /* Grid - matches website's 6-column layout */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
+      background: var(--surface);
+      padding: 0.5rem;
+      border-radius: 6px;
+    }
+
+    .grid-cell {
+      aspect-ratio: 1;
+      background: var(--surface2);
+      border: 1px dashed var(--border);
+      border-radius: 3px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 80px;
+    }
+
+    .grid-cell:hover { border-color: var(--accent); }
+    .grid-cell.selected { border: 2px solid var(--accent); }
+    .grid-cell.has-image { border-style: solid; border-color: var(--accent-dim); }
+
+    /* Support for spanning multiple columns */
+    .grid-cell.span-2 { grid-column: span 2; }
+    .grid-cell.span-3 { grid-column: span 3; }
+    .grid-cell.span-4 { grid-column: span 4; }
+    .grid-cell.span-5 { grid-column: span 5; }
+    .grid-cell.span-6 { grid-column: span 6; }
+
+    .grid-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+
+    .grid-cell .cell-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.8);
+      padding: 0.3rem 0.5rem;
+      font-size: 0.65rem;
+      color: var(--text);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .grid-cell:hover .cell-info { opacity: 1; }
+
+    .add-icon { color: var(--text-dim); font-size: 1.5rem; }
+
+    /* Properties Panel */
+    .props {
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .props h3 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+
+    .form-group { margin-bottom: 1rem; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-bottom: 0.3rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem;
+      border-radius: 3px;
+      font-size: 0.85rem;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .img-preview {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--bg);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .img-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .btn-danger {
+      background: #3a1a1a;
+      border-color: #5a2a2a;
+      color: #ff6b6b;
+    }
+    .btn-danger:hover { background: #4a2a2a; }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal.open { display: flex; }
+
+    .modal-box {
+      background: var(--surface);
+      border-radius: 8px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 85vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title { font-size: 1.1rem; }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+
+    /* Image Library Grid */
+    .img-library {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.5rem;
+    }
+
+    .lib-img {
+      aspect-ratio: 1;
+      cursor: pointer;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      position: relative;
+    }
+    .lib-img:hover { border-color: var(--accent-dim); }
+    .lib-img.selected { border-color: var(--accent); }
+
+    .lib-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Search */
+    .search-box {
+      margin-bottom: 1rem;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      padding: 0.75rem 1.25rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* Empty state */
+    .empty-msg {
+      color: var(--text-dim);
+      text-align: center;
+      padding: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="logo">-sys(cry) CMS</div>
+      <div class="header-btns">
+        <button class="btn" onclick="preview()">Preview</button>
+        <button class="btn btn-primary" onclick="saveAll()">Save</button>
+      </div>
+    </header>
+
+    <aside class="sidebar">
+      <h3>Pages</h3>
+      <ul class="page-list" id="pages"></ul>
+      <button class="btn" style="width:100%; margin-top:0.75rem;" onclick="newPageModal()">+ New Page</button>
+    </aside>
+
+    <main class="editor">
+      <div class="editor-header">
+        <h2 class="editor-title" id="pageTitle">index</h2>
+        <button class="btn" onclick="addArtwork()">+ Add Artwork</button>
+      </div>
+      <div class="grid" id="grid"></div>
+    </main>
+
+    <aside class="props" id="props">
+      <h3>Properties</h3>
+      <p class="empty-msg">Select a cell to edit</p>
+    </aside>
+  </div>
+
+  <!-- Image Select Modal -->
+  <div class="modal" id="imgModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Select Image</h3>
+        <button class="modal-close" onclick="closeModal('imgModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="search-box">
+          <input type="text" id="imgSearch" placeholder="Search images..." oninput="filterImages()">
+        </div>
+        <div class="img-library" id="imgLibrary"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" onclick="closeModal('imgModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="confirmImage()">Select</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Page Modal -->
+  <div class="modal" id="newPageModal">
+    <div class="modal-box" style="max-width: 400px;">
+      <div class="modal-header">
+        <h3 class="modal-title">New Page</h3>
+        <button class="modal-close" onclick="closeModal('newPageModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Page Name</label>
+          <input type="text" id="newPageName" placeholder="my-project">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" onclick="closeModal('newPageModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="createPage()">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ============ STATE ============
+    let data = { pages: {} };
+    let currentPage = 'index';
+    let selectedCell = null;
+    let allImages = [];
+    let selectedImage = null;
+
+    // ============ INIT ============
+    async function init() {
+      await loadData();
+      await loadImages();
+      renderPages();
+      renderGrid();
+    }
+
+    async function loadData() {
+      try {
+        const res = await fetch('/content.json');
+        if (res.ok) {
+          data = await res.json();
+          if (!data.pages) data.pages = {};
+        }
+      } catch (e) {
+        console.log('No existing data');
+      }
+
+      // Ensure default pages exist
+      if (!data.pages.index) data.pages.index = { artworks: [] };
+    }
+
+    async function loadImages() {
+      try {
+        const res = await fetch('/api/images');
+        if (res.ok) {
+          allImages = await res.json();
+        }
+      } catch (e) {
+        // Fallback - scan common names
+        allImages = [];
+      }
+    }
+
+    // ============ PAGES ============
+    function renderPages() {
+      const list = document.getElementById('pages');
+      const pageNames = Object.keys(data.pages);
+
+      list.innerHTML = pageNames.map(name => `
+        <li class="page-item ${name === currentPage ? 'active' : ''}"
+            onclick="selectPage('${name}')">${name}</li>
+      `).join('');
+    }
+
+    function selectPage(name) {
+      currentPage = name;
+      selectedCell = null;
+      document.getElementById('pageTitle').textContent = name;
+      renderPages();
+      renderGrid();
+      renderProps();
+    }
+
+    function newPageModal() {
+      document.getElementById('newPageName').value = '';
+      openModal('newPageModal');
+    }
+
+    function createPage() {
+      const name = document.getElementById('newPageName').value.trim()
+        .toLowerCase().replace(/[^a-z0-9-]/g, '-');
+
+      if (!name) {
+        toast('Enter a page name');
+        return;
+      }
+
+      if (data.pages[name]) {
+        toast('Page already exists');
+        return;
+      }
+
+      data.pages[name] = { artworks: [] };
+      closeModal('newPageModal');
+      selectPage(name);
+      toast('Page created');
+    }
+
+    // ============ GRID ============
+    function renderGrid() {
+      const grid = document.getElementById('grid');
+      const page = data.pages[currentPage] || { artworks: [] };
+      const artworks = page.artworks || [];
+
+      // Build a map of positions to artworks
+      const posMap = {};
+      artworks.forEach(a => {
+        posMap[a.gridPosition] = a;
+      });
+
+      // Render 48 cells (8 rows x 6 cols)
+      let html = '';
+      let pos = 1;
+
+      while (pos <= 48) {
+        const art = posMap[pos];
+
+        if (art) {
+          const span = art.colSpan || 1;
+          const spanClass = span > 1 ? `span-${span}` : '';
+          const selClass = selectedCell === pos ? 'selected' : '';
+
+          html += `
+            <div class="grid-cell has-image ${spanClass} ${selClass}"
+                 data-pos="${pos}"
+                 onclick="selectCell(${pos})">
+              <img src="../images/${art.image}" alt="">
+              <div class="cell-info">${art.title || 'Untitled'}</div>
+            </div>
+          `;
+          pos += span; // Skip cells covered by span
+        } else {
+          const selClass = selectedCell === pos ? 'selected' : '';
+          html += `
+            <div class="grid-cell ${selClass}"
+                 data-pos="${pos}"
+                 onclick="selectCell(${pos})">
+              <span class="add-icon">+</span>
+            </div>
+          `;
+          pos++;
+        }
+      }
+
+      grid.innerHTML = html;
+    }
+
+    function selectCell(pos) {
+      selectedCell = pos;
+      renderGrid();
+      renderProps();
+    }
+
+    // ============ PROPERTIES ============
+    function renderProps() {
+      const panel = document.getElementById('props');
+
+      if (!selectedCell) {
+        panel.innerHTML = '<h3>Properties</h3><p class="empty-msg">Select a cell to edit</p>';
+        return;
+      }
+
+      const page = data.pages[currentPage] || { artworks: [] };
+      const art = page.artworks?.find(a => a.gridPosition === selectedCell);
+
+      if (art) {
+        panel.innerHTML = `
+          <h3>Artwork</h3>
+
+          <div class="form-group">
+            <label>Image</label>
+            <div class="img-preview">
+              <img src="../images/${art.image}" alt="">
+            </div>
+            <button class="btn" style="width:100%" onclick="changeImage()">Change Image</button>
+          </div>
+
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" value="${art.title || ''}" onchange="updateArt('title', this.value)">
+          </div>
+
+          <div class="form-group">
+            <label>Year</label>
+            <input type="text" value="${art.year || ''}" onchange="updateArt('year', this.value)">
+          </div>
+
+          <div class="form-group">
+            <label>Link URL</label>
+            <input type="text" value="${art.link || '#'}" onchange="updateArt('link', this.value)">
+          </div>
+
+          <div class="form-group">
+            <label>Column Span (width)</label>
+            <select onchange="updateArt('colSpan', parseInt(this.value))">
+              <option value="1" ${(art.colSpan || 1) === 1 ? 'selected' : ''}>1 column</option>
+              <option value="2" ${art.colSpan === 2 ? 'selected' : ''}>2 columns</option>
+              <option value="3" ${art.colSpan === 3 ? 'selected' : ''}>3 columns</option>
+              <option value="4" ${art.colSpan === 4 ? 'selected' : ''}>4 columns</option>
+              <option value="5" ${art.colSpan === 5 ? 'selected' : ''}>5 columns</option>
+              <option value="6" ${art.colSpan === 6 ? 'selected' : ''}>6 columns (full width)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Grid Position</label>
+            <input type="number" value="${art.gridPosition}" min="1" max="48"
+                   onchange="moveArt(parseInt(this.value))">
+          </div>
+
+          <button class="btn btn-danger" style="width:100%; margin-top:1rem" onclick="removeArt()">
+            Remove Artwork
+          </button>
+        `;
+      } else {
+        panel.innerHTML = `
+          <h3>Empty Cell</h3>
+          <p class="empty-msg">Position: ${selectedCell}</p>
+          <button class="btn btn-primary" style="width:100%; margin-top:1rem" onclick="addArtwork()">
+            + Add Artwork
+          </button>
+        `;
+      }
+    }
+
+    function updateArt(key, value) {
+      const page = data.pages[currentPage];
+      const art = page.artworks?.find(a => a.gridPosition === selectedCell);
+      if (art) {
+        art[key] = value;
+        renderGrid();
+        toast('Updated');
+      }
+    }
+
+    function moveArt(newPos) {
+      const page = data.pages[currentPage];
+      const art = page.artworks?.find(a => a.gridPosition === selectedCell);
+      if (art && newPos >= 1 && newPos <= 48) {
+        // Check if position is free
+        const existing = page.artworks.find(a => a.gridPosition === newPos);
+        if (existing && existing !== art) {
+          toast('Position occupied');
+          return;
+        }
+        art.gridPosition = newPos;
+        selectedCell = newPos;
+        renderGrid();
+        renderProps();
+      }
+    }
+
+    function removeArt() {
+      const page = data.pages[currentPage];
+      page.artworks = page.artworks.filter(a => a.gridPosition !== selectedCell);
+      renderGrid();
+      renderProps();
+      toast('Removed');
+    }
+
+    // ============ ADD ARTWORK ============
+    function addArtwork() {
+      selectedImage = null;
+      renderImageLibrary();
+      openModal('imgModal');
+    }
+
+    function changeImage() {
+      selectedImage = null;
+      renderImageLibrary();
+      openModal('imgModal');
+    }
+
+    function renderImageLibrary(filter = '') {
+      const lib = document.getElementById('imgLibrary');
+      const filtered = filter
+        ? allImages.filter(img => img.toLowerCase().includes(filter.toLowerCase()))
+        : allImages;
+
+      lib.innerHTML = filtered.map(img => `
+        <div class="lib-img ${selectedImage === img ? 'selected' : ''}"
+             onclick="pickImage('${img}')">
+          <img src="../images/${img}" alt="${img}" loading="lazy">
+        </div>
+      `).join('');
+    }
+
+    function filterImages() {
+      const q = document.getElementById('imgSearch').value;
+      renderImageLibrary(q);
+    }
+
+    function pickImage(img) {
+      selectedImage = img;
+      renderImageLibrary(document.getElementById('imgSearch').value);
+    }
+
+    function confirmImage() {
+      if (!selectedImage) {
+        toast('Select an image');
+        return;
+      }
+
+      const page = data.pages[currentPage];
+      if (!page.artworks) page.artworks = [];
+
+      // Check if editing existing or adding new
+      const existing = page.artworks.find(a => a.gridPosition === selectedCell);
+
+      if (existing) {
+        // Update image
+        existing.image = selectedImage;
+      } else {
+        // Add new
+        page.artworks.push({
+          image: selectedImage,
+          title: '',
+          year: new Date().getFullYear().toString(),
+          link: '#',
+          gridPosition: selectedCell || findEmptyCell(),
+          colSpan: 1
+        });
+
+        if (!selectedCell) {
+          selectedCell = page.artworks[page.artworks.length - 1].gridPosition;
+        }
+      }
+
+      closeModal('imgModal');
+      renderGrid();
+      renderProps();
+      toast('Image added');
+    }
+
+    function findEmptyCell() {
+      const page = data.pages[currentPage] || { artworks: [] };
+      const used = new Set();
+
+      page.artworks?.forEach(a => {
+        const span = a.colSpan || 1;
+        for (let i = 0; i < span; i++) {
+          used.add(a.gridPosition + i);
+        }
+      });
+
+      for (let i = 1; i <= 48; i++) {
+        if (!used.has(i)) return i;
+      }
+      return 1;
+    }
+
+    // ============ SAVE ============
+    async function saveAll() {
+      try {
+        const res = await fetch('/api/content', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          toast('Saved!');
+        } else {
+          throw new Error('Save failed');
+        }
+      } catch (e) {
+        // Fallback: copy to clipboard
+        await navigator.clipboard.writeText(JSON.stringify(data, null, 2));
+        toast('Copied to clipboard - paste into content.json');
+      }
+    }
+
+    // ============ PREVIEW ============
+    function preview() {
+      window.open('../index.html', '_blank');
+    }
+
+    // ============ MODAL HELPERS ============
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    // ============ TOAST ============
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // ============ START ============
+    init();
+  </script>
+</body>
+</html>

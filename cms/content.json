@@ -1,0 +1,102 @@
+{
+  "pages": {
+    "index": {
+      "artworks": [
+        {
+          "image": "sys-boiling-in-comfort.webp",
+          "title": "boiling in comfort",
+          "year": "2024",
+          "link": "https://zora.co/collect/zora:0xc8665182816cf7898c76e96582ffe6e38cbf6f8f/9",
+          "gridPosition": 1,
+          "colSpan": 1
+        },
+        {
+          "image": "sys-selfpotrait.jpeg",
+          "title": "a portrait of the many: self-portrait",
+          "year": "2023",
+          "link": "https://zora.co/collect/zora:0x9e943f188a86a353ac4c002bd742970f69051a9c/3",
+          "gridPosition": 8,
+          "colSpan": 1
+        },
+        {
+          "image": "neo-embryo.png",
+          "title": "neo embryo:genesis",
+          "year": "2023",
+          "link": "https://www.systm.ai/neo-embryo",
+          "gridPosition": 14,
+          "colSpan": 1
+        },
+        {
+          "image": "download-55-nmiaaaaa.JPG",
+          "title": "Untitled",
+          "year": "2024",
+          "link": "#",
+          "gridPosition": 20,
+          "colSpan": 1
+        },
+        {
+          "image": "download-70-n.jpg",
+          "title": "Untitled",
+          "year": "2024",
+          "link": "#",
+          "gridPosition": 24,
+          "colSpan": 1
+        },
+        {
+          "image": "sys-my-quiet-mind-metaphor.jpg",
+          "title": "my quiet mind metaphor",
+          "year": "2024",
+          "link": "https://foundation.app/mint/base/0x375429FfA5Bec9Df478c11D9807d1f61227280f4/3",
+          "gridPosition": 29,
+          "colSpan": 1
+        },
+        {
+          "image": "download-22-trefrt.jpg",
+          "title": "trees I&#x27;ve never seen",
+          "year": "2023",
+          "link": "#",
+          "gridPosition": 36,
+          "colSpan": 1
+        },
+        {
+          "image": "sys-mycelium-network-semiosis.jpg",
+          "title": "mycelium network:abstraction",
+          "year": "2023",
+          "link": "https://www.systm.ai/mycelium",
+          "gridPosition": 38,
+          "colSpan": 1
+        },
+        {
+          "image": "Runway-2023-12-11T16_22_03.115Z-Upscale-Image-Upscaled-Image-1920-x-1920.jpg",
+          "title": "Silence and pain are my blissful state",
+          "year": "2023",
+          "link": "#",
+          "gridPosition": 41,
+          "colSpan": 1
+        },
+        {
+          "image": "sys-therapeutics-capsule-01.png",
+          "title": "SYS\u2122 Therapeutics",
+          "year": "2023",
+          "link": "https://www.systm.ai/",
+          "gridPosition": 45,
+          "colSpan": 1
+        },
+        {
+          "image": "sys-lex.jpg",
+          "title": "Lex, a portrait of the many",
+          "year": "2023",
+          "link": "#",
+          "gridPosition": 46,
+          "colSpan": 1
+        }
+      ]
+    },
+    "no-mouth-must-scream": {
+      "artworks": []
+    },
+    "holy-trinity": {
+      "artworks": []
+    }
+  }
+}
