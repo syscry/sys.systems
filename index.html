@@ -244,16 +244,16 @@
       background: rgba(255, 255, 255, 0.4);
     }
 
-    /* Code Modal */
+    /* Code Modal - Neumorphic */
     .code-modal {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(225, 225, 225, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 2000;
       display: flex;
       align-items: center;
@@ -269,14 +269,16 @@
     }
 
     .code-modal-content {
-      background: #1e1e1e;
-      border-radius: 12px;
+      background: #e1e1e1;
+      border-radius: 20px;
       width: 90%;
       max-width: 900px;
       max-height: 80vh;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      box-shadow:
+        8px 8px 16px rgba(0, 0, 0, 0.1),
+        -8px -8px 16px rgba(255, 255, 255, 0.7);
       transform: translateY(20px);
       transition: transform 0.3s ease;
     }
@@ -289,47 +291,62 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     }
 
     .code-modal-title {
       font-size: 10px;
-      letter-spacing: 0.1em;
-      color: rgba(255, 255, 255, 0.6);
+      letter-spacing: 0.15em;
+      color: rgba(0, 0, 0, 0.4);
     }
 
     .code-modal-close {
       background: none;
       border: none;
-      color: rgba(255, 255, 255, 0.4);
-      font-size: 18px;
+      color: rgba(0, 0, 0, 0.3);
+      font-size: 14px;
       cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 4px;
+      padding: 6px 10px;
+      border-radius: 10px;
       transition: all 0.2s ease;
       font-family: 'BPdots', Arial, sans-serif;
     }
 
     .code-modal-close:hover {
-      color: rgba(255, 255, 255, 0.8);
-      background: rgba(255, 255, 255, 0.1);
+      color: rgba(0, 0, 0, 0.6);
+      background: rgba(255, 255, 255, 0.5);
     }
 
     .code-modal-body {
       overflow: auto;
-      padding: 16px;
+      padding: 20px;
       flex: 1;
     }
 
     .code-modal-body pre {
       margin: 0;
-      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-      font-size: 11px;
-      line-height: 1.5;
-      color: #d4d4d4;
+      font-family: 'BPdots', Arial, sans-serif;
+      font-size: 8px;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      color: rgba(0, 0, 0, 0.45);
       white-space: pre-wrap;
       word-wrap: break-word;
+    }
+
+    .code-cursor {
+      display: inline-block;
+      width: 6px;
+      height: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      margin-left: 2px;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
     }
 
     /* Footer */
@@ -664,19 +681,40 @@
       const views = { main: navMain, proto: navProto, holy: navHoly, pilgrim: navPilgrim };
       let currentView = 'main';
 
+      // Typewriter effect
+      let typewriterInterval = null;
+      function typewriterEffect(text, element, speed = 1) {
+        if (typewriterInterval) clearInterval(typewriterInterval);
+        element.innerHTML = '';
+        let i = 0;
+        const charsPerTick = Math.max(50, Math.floor(text.length / 200));
+        typewriterInterval = setInterval(() => {
+          if (i < text.length) {
+            element.textContent = text.substring(0, i + charsPerTick);
+            i += charsPerTick;
+            element.parentElement.scrollTop = element.parentElement.scrollHeight;
+          } else {
+            element.textContent = text;
+            element.innerHTML = text.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '<span class="code-cursor"></span>';
+            clearInterval(typewriterInterval);
+            typewriterInterval = null;
+          }
+        }, 10);
+      }
+
       // Code modal functionality
       document.querySelectorAll('.artwork-code').forEach(btn => {
         btn.addEventListener('click', async (e) => {
           e.preventDefault();
           const file = btn.dataset.file;
           codeModalTitle.textContent = file.toUpperCase();
-          codeModalCode.textContent = 'LOADING...';
+          codeModalCode.innerHTML = '<span class="code-cursor"></span>';
           codeModal.classList.add('active');
 
           try {
             const response = await fetch(file);
             const code = await response.text();
-            codeModalCode.textContent = code;
+            typewriterEffect(code, codeModalCode);
           } catch (err) {
             codeModalCode.textContent = 'ERROR LOADING CODE';
           }
@@ -694,14 +732,18 @@
       });
 
       // Close modal
-      codeModalClose.addEventListener('click', () => {
+      function closeCodeModal() {
+        if (typewriterInterval) {
+          clearInterval(typewriterInterval);
+          typewriterInterval = null;
+        }
         codeModal.classList.remove('active');
-      });
+      }
+
+      codeModalClose.addEventListener('click', closeCodeModal);
 
       codeModal.addEventListener('click', (e) => {
-        if (e.target === codeModal) {
-          codeModal.classList.remove('active');
-        }
+        if (e.target === codeModal) closeCodeModal();
       });
 
       // Morph container width to match content
