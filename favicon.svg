@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#e1e1e1"/>
-  <g fill="#333333">
+  <defs><filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="0.9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <rect width="32" height="32" rx="6" fill="#cccccc"/>
+  <g fill="#ffffff" filter="url(#g)">
     <circle cx="11.00" cy="6.00" r="2.05"/>
     <circle cx="16.00" cy="6.00" r="2.05"/>
     <circle cx="21.00" cy="6.00" r="2.05"/>
