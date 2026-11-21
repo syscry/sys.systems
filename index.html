@@ -227,6 +227,8 @@
     .artwork-code,
     .artwork-fullscreen,
     .artwork-chain {
+      white-space: nowrap;   /* "VIEW CODE" and "ERC-721" were wrapping onto two lines on phones */
+      flex-shrink: 0;
       font-size: 8px;
       letter-spacing: 0.08em;
       color: rgba(0, 0, 0, 0.3);
@@ -488,10 +490,15 @@
         font-size: 7px;
       }
 
+      .artwork-links {
+        gap: 4px;
+      }
+
       .artwork-code,
       .artwork-fullscreen,
       .artwork-chain {
         font-size: 7px;
+        padding: 4px 7px;
       }
 
       .fs-exit {
